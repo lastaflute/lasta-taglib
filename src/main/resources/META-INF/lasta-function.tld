@@ -7,12 +7,12 @@
 	<display-name>Lasta functions</display-name>
 	<tlib-version>1.1</tlib-version>
 	<short-name>f</short-name>
-	<uri>http://dbflute.org/lastaflute/functions</uri>
+	<uri>http://lastaflute.org/functions</uri>
 
 	<function>
 		<description>Escapes characters that could be interpreted as HTML.</description>
 		<name>h</name>
-		<function-class>org.dbflute.lasta.taglib.function.LaFunctions</function-class>
+		<function-class>org.lastaflute.taglib.function.LaFunctions</function-class>
 		<function-signature>java.lang.String h(java.lang.Object)</function-signature>
 		<example>${f:h(param:info)}</example>
 	</function>
@@ -20,7 +20,7 @@
 	<function>
 		<description>Escapes characters that could be interpreted as URL.</description>
 		<name>u</name>
-		<function-class>org.dbflute.lasta.taglib.function.LaFunctions</function-class>
+		<function-class>org.lastaflute.taglib.function.LaFunctions</function-class>
 		<function-signature>java.lang.String u(java.lang.String)</function-signature>
 		<example>${f:u(param:info)}</example>
 	</function>
@@ -28,7 +28,7 @@
 	<function>
 		<description>Formats characters that could be interpreted as Date.</description>
 		<name>formatDate</name>
-		<function-class>org.dbflute.lasta.taglib.function.LaFunctions</function-class>
+		<function-class>org.lastaflute.taglib.function.LaFunctions</function-class>
 		<function-signature>java.lang.String formatDate(java.time.LocalDate, java.lang.String)</function-signature>
 		<example>${f:formatDate(bean.birthdate, 'yyyy/MM/dd')}</example>
 	</function>
@@ -36,7 +36,7 @@
 	<function>
 		<description>Formats characters that could be interpreted as Date.</description>
 		<name>formatDateTime</name>
-		<function-class>org.dbflute.lasta.taglib.function.LaFunctions</function-class>
+		<function-class>org.lastaflute.taglib.function.LaFunctions</function-class>
 		<function-signature>java.lang.String formatDateTime(java.time.LocalDateTime, java.lang.String)</function-signature>
 		<example>${f:formatDateTime(bean.purchaseDatetime, 'yyyy/MM/dd HH:mm')}</example>
 	</function>
@@ -44,7 +44,7 @@
 	<function>
 		<description>Converts line break to br tag.</description>
 		<name>br</name>
-		<function-class>org.dbflute.lasta.taglib.function.LaFunctions</function-class>
+		<function-class>org.lastaflute.taglib.function.LaFunctions</function-class>
 		<function-signature>java.lang.String br(java.lang.String)</function-signature>
 		<example>${f:br(f:h(textarea))}</example>
 	</function>
@@ -52,7 +52,7 @@
 	<function>
 		<description>Escapes space that could be interpreted as HTML.</description>
 		<name>nbsp</name>
-		<function-class>org.dbflute.lasta.taglib.function.LaFunctions</function-class>
+		<function-class>org.lastaflute.taglib.function.LaFunctions</function-class>
 		<function-signature>java.lang.String nbsp(java.lang.String)</function-signature>
 		<example>${f:br(f:nbsp(f:h(textarea)))}</example>
 	</function>
@@ -60,7 +60,7 @@
 	<function>
 		<description>Calculates URL.</description>
 		<name>url</name>
-		<function-class>org.dbflute.lasta.taglib.function.LaFunctions</function-class>
+		<function-class>org.lastaflute.taglib.function.LaFunctions</function-class>
 		<function-signature>java.lang.String url(java.lang.String)</function-signature>
 		<example>&lt;a href="${f:url(param:info)}" ...</example>
 	</function>
@@ -68,7 +68,7 @@
 	<function>
 		<description>Converts value to label.</description>
 		<name>label</name>
-		<function-class>org.dbflute.lasta.taglib.function.LaFunctions</function-class>
+		<function-class>org.lastaflute.taglib.function.LaFunctions</function-class>
 		<function-signature>java.lang.String label(java.lang.Object, java.util.List, java.lang.String, java.lang.String)</function-signature>
 		<example>${f:label(e.departmentId, deptItems, "id", "name")}</example>
 	</function>
