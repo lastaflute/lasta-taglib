@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.dbflute.lasta</groupId>
 	<artifactId>lasta-taglib</artifactId>
-	<version>0.6.0-A-SNAPSHOT</version>
+	<version>0.6.0-RC1</version>
 	<packaging>jar</packaging>
 
 	<name>LastaFlute</name>
@@ -13,10 +13,10 @@
 	<inceptionYear>2015</inceptionYear>
 
 	<properties>
-		<lastaflute.version>0.6.0-A-SNAPSHOT</lastaflute.version>
+		<lastaflute.version>0.6.0-RC1</lastaflute.version>
 		<servlet.version>3.1.0</servlet.version>
 		<jsp.version>2.3.1</jsp.version>
-		<utflute.version>0.5.0-sp2</utflute.version>
+		<utflute.version>0.5.0-sp3</utflute.version>
 	</properties>
 
 	<licenses>
@@ -148,6 +148,24 @@
 					</execution>
 				</executions>
 			</plugin>
+			<!--
+			 'xxx.jar.asc' file can be created by this plug-in
+			 you can deploy by 'mvn -e clean deploy -Dgpg.keyname=xxx -Dgpg.passphrase="xxx"'
+			 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.5</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 		</plugins>
 	</build>
 
@@ -192,18 +210,18 @@
 		<!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
 		<!--                                                                       Testing -->
 		<!--                                                                       = = = = -->
-		<!-- utflute -->
-        <dependency>
-            <groupId>org.dbflute.utflute</groupId>
-            <artifactId>utflute-lasta-di</artifactId>
-            <version>${utflute.version}</version>
-            <scope>test</scope>
-        </dependency>
         <!-- junit -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+		<!-- utflute -->
+        <dependency>
+            <groupId>org.dbflute.utflute</groupId>
+            <artifactId>utflute-lasta-di</artifactId>
+            <version>${utflute.version}</version>
             <scope>test</scope>
         </dependency>
 	    <!-- logging -->
