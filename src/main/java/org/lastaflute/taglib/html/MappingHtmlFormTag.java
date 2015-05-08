@@ -301,7 +301,7 @@ public class MappingHtmlFormTag extends HtmlFormTag {
         final HttpServletResponse response = (HttpServletResponse) pageContext.getResponse();
         results.append(" action=\"");
         final String contextPath = request.getContextPath();
-        final StringBuffer value = new StringBuffer();
+        final StringBuilder value = new StringBuilder();
         if (contextPath.length() > 1) {
             value.append(contextPath);
         }
@@ -362,8 +362,7 @@ public class MappingHtmlFormTag extends HtmlFormTag {
     //                                    Component Behavior
     //                                    ------------------
     protected boolean isFrameworkDebugEnabled() {
-        final FwAssistantDirector assistantDirector = getAssistantDirector();
-        return assistantDirector.assistOptionalCoreDirection().isFrameworkDebug();
+        return getAssistantDirector().assistCoreDirection().isFrameworkDebug();
     }
 
     // cannot use this because... see the Action Path calculation logic
@@ -373,9 +372,7 @@ public class MappingHtmlFormTag extends HtmlFormTag {
     //}
 
     protected String getRequestPath() {
-        final RequestManager requestManager = getRequestManager();
-        final String requestPath = requestManager.getRequestPath();
-        return requestPath;
+        return getRequestManager().getRequestPath();
     }
 
     // ===================================================================================

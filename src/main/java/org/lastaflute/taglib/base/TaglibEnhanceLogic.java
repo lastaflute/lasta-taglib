@@ -474,7 +474,7 @@ public class TaglibEnhanceLogic {
     //                                                                      Classification
     //                                                                      ==============
     public ListedClassificationProvider getListedClassificationProvider() {
-        return getAssistantDirector().assistOptionalDbDirection().assistListedClassificationProvider();
+        return getAssistantDirector().assistDbDirection().assistListedClassificationProvider();
     }
 
     public ClassificationMeta provideClassificationMeta(ListedClassificationProvider provider, String classificationName,
