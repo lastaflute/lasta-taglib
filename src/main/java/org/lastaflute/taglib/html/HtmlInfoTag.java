@@ -73,7 +73,7 @@ public class HtmlInfoTag extends BaseBodyTag {
     }
 
     protected Iterator<ActionMessage> toMessageIterator(ActionMessages messages) {
-        return property != null ? messages.get(property) : messages.get();
+        return property != null ? messages.accessByIteratorOf(property) : messages.accessByFlatIterator();
     }
 
     // ===================================================================================
