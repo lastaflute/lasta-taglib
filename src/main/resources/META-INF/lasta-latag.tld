@@ -515,6 +515,17 @@
 	</tag>
 
 	<!-- ================================================================================= -->
+	<!--                                                                     la:captionCls -->
+	<!--                                                                     ============= -->
+	<tag>
+		<name>captionCls</name>
+		<tag-class>org.lastaflute.taglib.bean.BeanCaptionClsTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute><name>name</name><required>true</required><rtexprvalue>true</rtexprvalue></attribute>
+		<attribute><name>value</name><required>true</required><rtexprvalue>true</rtexprvalue></attribute>
+	</tag>
+
+	<!-- ================================================================================= -->
 	<!--                                                                        la:message -->
 	<!--                                                                        ========== -->
 	<tag>

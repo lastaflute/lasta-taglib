@@ -32,7 +32,10 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.BodyContent;
 
 import org.dbflute.helper.message.ExceptionMessageBuilder;
+import org.dbflute.jdbc.Classification;
 import org.dbflute.jdbc.ClassificationMeta;
+import org.dbflute.optional.OptionalThing;
+import org.dbflute.optional.OptionalThingFunction;
 import org.dbflute.util.DfStringUtil;
 import org.lastaflute.core.direction.FwAssistantDirector;
 import org.lastaflute.core.message.MessageManager;
@@ -146,6 +149,7 @@ public class TaglibEnhanceLogic {
         final Object bean = scope != null ? pageContext.getAttribute(beanName, getScope(scope)) : pageContext.findAttribute(beanName);
         if (bean == null) {
             // TODO jflute lastaflute: [E] fitting: JspException error message
+            // when non in form text
             throw new JspException("Not found the bean: beanName=" + beanName);
         }
         return bean;
@@ -473,6 +477,51 @@ public class TaglibEnhanceLogic {
     // ===================================================================================
     //                                                                      Classification
     //                                                                      ==============
+    public Classification findClassification(String classificationName, String code, Supplier<Object> callerInfo) {
+        final ClassificationMeta meta = findClassificationMeta(classificationName, callerInfo);
+        final Classification cls = meta.codeOf(code);
+        if (cls == null) {
+            throwClassificationCodeNotFoundException(classificationName, code, callerInfo);
+        }
+        return cls;
+    }
+
+    public ClassificationMeta findClassificationMeta(String classificationName, Supplier<Object> callerInfo) {
+        return provideClassificationMeta(getListedClassificationProvider(), classificationName, callerInfo);
+    }
+
+    protected void throwClassificationCodeNotFoundException(String classificationName, String code, Supplier<Object> callerInfo) {
+        final ExceptionMessageBuilder br = new ExceptionMessageBuilder();
+        br.addNotice("Not found the classification for the code.");
+        br.addItem("Requested JSP Path");
+        br.addElement(getRequestJspPath());
+        br.addItem("Target Taglib");
+        br.addElement(callerInfo.get());
+        br.addItem("Classification Name");
+        br.addElement(classificationName);
+        br.addItem("Code");
+        br.addElement(code);
+        final String msg = br.buildExceptionMessage();
+        throw new TaglibClassificationNotFoundException(msg);
+    }
+
+    public String findClassificationAlias(String classificationName, String code, Supplier<Object> callerInfo) {
+        return findClassificationAlias(findClassification(classificationName, code, callerInfo));
+    }
+
+    public String findClassificationAlias(Classification cls) {
+        return determineClassificationAliasKey().map(new OptionalThingFunction<String, String>() {
+            @Override
+            public String apply(String key) {
+                return (String) cls.subItemMap().get(key);
+            }
+        }).orElse(cls.alias()); // not lambda for Jetty6
+    }
+
+    public OptionalThing<String> determineClassificationAliasKey() {
+        return getListedClassificationProvider().determineAlias(getUserLocale());
+    }
+
     public ListedClassificationProvider getListedClassificationProvider() {
         return getAssistantDirector().assistDbDirection().assistListedClassificationProvider();
     }
@@ -482,12 +531,12 @@ public class TaglibEnhanceLogic {
         try {
             return provider.provide(classificationName);
         } catch (ProvidedClassificationNotFoundException e) {
-            throwClassificationNotFoundException(classificationName, callerInfo);
+            throwListedClassificationNotFoundException(classificationName, callerInfo);
             return null; // unreachable
         }
     }
 
-    protected void throwClassificationNotFoundException(String classificationName, Supplier<Object> callerInfo) {
+    protected void throwListedClassificationNotFoundException(String classificationName, Supplier<Object> callerInfo) {
         final ExceptionMessageBuilder br = new ExceptionMessageBuilder();
         br.addNotice("Not found the classification for the list.");
         br.addItem("Requested JSP Path");
