@@ -49,6 +49,7 @@ import org.lastaflute.di.helper.beans.factory.BeanDescFactory;
 import org.lastaflute.taglib.exception.TaglibAutocompleteInvalidValueException;
 import org.lastaflute.taglib.exception.TaglibBeanPropertyNotFoundException;
 import org.lastaflute.taglib.exception.TaglibClassificationNotFoundException;
+import org.lastaflute.taglib.exception.TaglibFormBeanNotFoundException;
 import org.lastaflute.taglib.exception.TaglibLabelsResourceNotFoundException;
 import org.lastaflute.taglib.exception.TaglibMessagesResourceNotFoundException;
 import org.lastaflute.taglib.function.LaFunctions;
@@ -147,22 +148,43 @@ public class TaglibEnhanceLogic {
     //                                  --------------------
     public Object lookupBean(PageContext pageContext, String beanName, String scope, Supplier<Object> callerInfo) throws JspException {
         final Object bean = scope != null ? pageContext.getAttribute(beanName, getScope(scope)) : pageContext.findAttribute(beanName);
-        if (bean == null) {
-            // TODO jflute lastaflute: [E] fitting: JspException error message
-            // when non in form text
-            throw new JspException("Not found the bean: beanName=" + beanName);
+        if (bean == null) { // e.g. input tag is defined out of form tag
+            throwTaglibFormTagNotFoundException(beanName, scope, callerInfo);
         }
         return bean;
     }
 
+    protected void throwTaglibFormTagNotFoundException(String beanName, String scope, Supplier<Object> callerInfo) {
+        final ExceptionMessageBuilder br = new ExceptionMessageBuilder();
+        br.addNotice("Not found the form tag for the tag.");
+        br.addItem("Advice");
+        br.addElement("Form bean should exist in the scope.");
+        br.addElement("For example, text tag should be in form tag like this:");
+        br.addElement("  (x):");
+        br.addElement("    <la:text property=\"...\">");
+        br.addElement("    <la:form ...>");
+        br.addElement("      ...");
+        br.addElement("    </la:form>");
+        br.addElement("  (o):");
+        br.addElement("    <la:form ...>");
+        br.addElement("      <la:text property=\"...\">");
+        br.addElement("      ...");
+        br.addElement("    </la:form>");
+        br.addItem("Requested JSP Path");
+        br.addElement(getRequestJspPath());
+        br.addItem("Target Taglib");
+        br.addElement(callerInfo.get());
+        br.addItem("Bean Name");
+        br.addElement(beanName);
+        br.addItem("Scope");
+        br.addElement(scope);
+        final String msg = br.buildExceptionMessage();
+        throw new TaglibFormBeanNotFoundException(msg);
+    }
+
     public Object lookupProperty(PageContext pageContext, String beanName, String property, String scope, Supplier<Object> callerInfo)
             throws JspException {
-        final Object bean = lookupBean(pageContext, beanName, scope, callerInfo);
-        if (bean == null) {
-            String msg = "Not found the bean: name=" + beanName + " property=" + property + " scope=" + scope;
-            throw new JspException(msg);
-        }
-        return getProperty(bean, property, callerInfo);
+        return getProperty(lookupBean(pageContext, beanName, scope, callerInfo), property, callerInfo);
     }
 
     protected int getScope(String scopeName) throws JspException {
