@@ -156,7 +156,8 @@ public class MappingHtmlFormTag extends HtmlFormTag {
     // ===================================================================================
     //                                                                      Action Mapping
     //                                                                      ==============
-    protected boolean processActionMapping(String path, String queryString, String actionKey, String paramPath, ActionExecute configByParam) {
+    protected boolean processActionMapping(String path, String queryString, String actionKey, String paramPath,
+            ActionExecute configByParam) {
         if (isInternalDebug()) {
             debugInternally("...Processing action mapping");
         }
@@ -231,11 +232,11 @@ public class MappingHtmlFormTag extends HtmlFormTag {
         br.addElement("    public HtmlResponse index() {");
         br.addElement("        return asHtml(path_Sea_SeaJsp); // *NG");
         br.addElement("    }");
-        br.addElement("  (o):");
+        br.addElement("  (o): (case of initial value from GET parameter)");
         br.addElement("    public HtmlResponse index(SeaForm form) { // OK");
         br.addElement("        return asHtml(path_Sea_SeaJsp);");
         br.addElement("    }");
-        br.addElement("  (o):");
+        br.addElement("  (o): (case of no initial value, empty display)");
         br.addElement("    public HtmlResponse index() {");
         br.addElement("        return asHtml(path_Sea_SeaJsp).useForm(SeaForm.class); // OK");
         br.addElement("    }");
