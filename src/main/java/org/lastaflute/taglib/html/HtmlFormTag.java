@@ -25,6 +25,8 @@ import org.lastaflute.web.LastaWebKey;
 import org.lastaflute.web.ruts.config.ActionMapping;
 import org.lastaflute.web.ruts.config.ModuleConfig;
 import org.lastaflute.web.servlet.session.SessionManager;
+import org.lastaflute.web.token.DoubleSubmitTokenMap;
+import org.lastaflute.web.util.LaActionRuntimeUtil;
 
 /**
  * Split as basic form tag and mapping form tag, so see also MappingHtmlFormTag.
@@ -112,13 +114,19 @@ public abstract class HtmlFormTag extends BaseNonBodyTag {
     protected String renderToken() {
         final String tokenKey = LastaWebKey.TRANSACTION_TOKEN_KEY;
         final SessionManager manager = getRequestManager().getSessionManager();
-        return manager.getAttribute(tokenKey, String.class).map(new OptionalThingFunction<String, String>() {
+        return manager.getAttribute(tokenKey, DoubleSubmitTokenMap.class).map(new OptionalThingFunction<DoubleSubmitTokenMap, String>() {
             @Override
-            public String apply(String token) {
-                final StringBuilder sb = new StringBuilder();
-                sb.append("<div><input type=\"hidden\" name=\"").append(tokenKey);
-                sb.append("\" value=\"").append(token).append("\">").append("</div>");
-                return sb.toString();
+            public String apply(DoubleSubmitTokenMap tokenMap) {
+                final Class<?> actionType = LaActionRuntimeUtil.getActionRuntime().getActionType();
+                return tokenMap.get(actionType).map(new OptionalThingFunction<String, String>() {
+                    @Override
+                    public String apply(String token) {
+                        final StringBuilder sb = new StringBuilder();
+                        sb.append("<div><input type=\"hidden\" name=\"").append(tokenKey);
+                        sb.append("\" value=\"").append(token).append("\">").append("</div>");
+                        return sb.toString();
+                    }
+                }).orElse("");
             }
         }).orElse("");
     }

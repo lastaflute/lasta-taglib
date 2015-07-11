@@ -18,10 +18,10 @@ package org.lastaflute.taglib.html;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.JspException;
 
 import org.dbflute.helper.message.ExceptionMessageBuilder;
+import org.dbflute.optional.OptionalThingConsumer;
 import org.lastaflute.core.util.ContainerUtil;
 import org.lastaflute.di.util.LdiStringUtil;
 import org.lastaflute.taglib.base.BaseTouchableBodyTag;
@@ -32,6 +32,9 @@ import org.lastaflute.web.path.ActionFoundPathHandler;
 import org.lastaflute.web.path.ActionPathResolver;
 import org.lastaflute.web.ruts.config.ActionExecute;
 import org.lastaflute.web.servlet.request.RequestManager;
+import org.lastaflute.web.servlet.session.SessionManager;
+import org.lastaflute.web.token.DoubleSubmitTokenMap;
+import org.lastaflute.web.util.LaActionRuntimeUtil;
 import org.lastaflute.web.util.LaRequestUtil;
 import org.lastaflute.web.util.LaResponseUtil;
 
@@ -130,34 +133,41 @@ public class HtmlLinkTag extends BaseTouchableBodyTag {
         if (href.indexOf(':') > -1) {
             throw new IllegalStateException("Unsupported colon in href: " + href);
         }
-        String url = buildHrefUrl(href); // Not Null
+        final StringBuilder sb = new StringBuilder();
+        final String hrefUrl = buildHrefUrl(href);
+        sb.append(hrefUrl); // not null
         if (transaction) {
-            final HttpSession session = pageContext.getSession();
-            if (session != null) {
-                final String tokenKey = LastaWebKey.TRANSACTION_TOKEN_KEY;
-                final String token = (String) session.getAttribute(tokenKey);
-                if (token != null) {
-                    final String delimiter = url != null && url.indexOf('?') >= 0 ? "&" : "?";
-                    url = url + delimiter + tokenKey + "=" + token;
+            final SessionManager manager = getRequestManager().getSessionManager();
+            final String tokenKey = LastaWebKey.TRANSACTION_TOKEN_KEY;
+            manager.getAttribute(tokenKey, DoubleSubmitTokenMap.class).ifPresent(new OptionalThingConsumer<DoubleSubmitTokenMap>() {
+                @Override
+                public void accept(DoubleSubmitTokenMap tokenMap) {
+                    final Class<?> actionType = LaActionRuntimeUtil.getActionRuntime().getActionType();
+                    tokenMap.get(actionType).ifPresent(new OptionalThingConsumer<String>() {
+                        @Override
+                        public void accept(String token) {
+                            final String delimiter = hrefUrl.indexOf('?') >= 0 ? "&" : "?";
+                            sb.append(delimiter).append(tokenKey).append("=").append(token);
+                        }
+                    });
                 }
-            }
+            });
         }
         // Copied from Struts TagUtils (and small adjustment)
         // Add anchor if requested (adding only here, duplicate if any anchor exists)
         if (anchor != null) {
-            url = url + "#" + getEnhanceLogic().encode(anchor);
+            sb.append("#").append(getEnhanceLogic().encode(anchor));
         }
-
         // AbsolutePath & lang is not null
         if (LdiStringUtil.isNotBlank(lang)) {
             // absolute path only
-            if (url.startsWith("/")) {
-                url = "/" + lang + url; // e.g) if lang is ja, /contents/about/ => /ja/contents/about/
+            if (hrefUrl.startsWith("/")) {
+                sb.insert(0, "/").insert(0, lang); // e.g) if lang is ja, /contents/about/ => /ja/contents/about/
             } else {
                 throwLangIllegalArgumentException();
             }
         }
-        return url;
+        return sb.toString();
     }
 
     protected String buildHrefUrl(final String input) {
