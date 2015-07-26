@@ -15,34 +15,43 @@
  */
 package org.lastaflute.taglib.bean;
 
+import java.util.function.Supplier;
+
 import javax.servlet.jsp.JspException;
 
 import org.lastaflute.taglib.base.BaseNonBodyTag;
+import org.lastaflute.taglib.base.TaglibEnhanceLogic;
 
 /**
- * The tag for label resource.
+ * The tag for classification caption.
  * <pre>
  * e.g.
- *  bean:option key="labels.foo"
- *  bean:option key="labels.foo|labels.list"
+ *  bean:captionCls name="MemberStatus" value="FML"
  * </pre>
  * @author jflute
  */
-public class BeanCaptionTag extends BaseNonBodyTag {
+public class BeanCaptionClsTag extends BaseNonBodyTag {
 
     private static final long serialVersionUID = 1L;
 
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    protected String key;
+    protected String name; // required
+    protected String value; // required
 
     // ===================================================================================
     //                                                                           Start Tag
     //                                                                           =========
     @Override
     public int doStartTag() throws JspException {
-        getEnhanceLogic().write(pageContext, findLabelResourceChecked(key));
+        final TaglibEnhanceLogic logic = getEnhanceLogic();
+        final String alias = logic.findClassificationAlias(name, value, new Supplier<Object>() {
+            public Object get() {
+                return buildErrorIdentity();
+            }
+        }); // not lambda for Jetty6
+        getEnhanceLogic().write(pageContext, alias);
         return SKIP_BODY;
     }
 
@@ -51,17 +60,25 @@ public class BeanCaptionTag extends BaseNonBodyTag {
     //                                                                      ==============
     @Override
     protected String buildErrorIdentity() {
-        return "key=" + key + " tag=" + getClass().getName();
+        return "name=" + name + " value=" + value + " tag=" + getClass().getName();
     }
 
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========
-    public String getKey() {
-        return key;
+    public String getName() {
+        return name;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
     }
 }

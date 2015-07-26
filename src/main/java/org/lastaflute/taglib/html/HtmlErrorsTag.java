@@ -114,7 +114,7 @@ public class HtmlErrorsTag extends BaseNonBodyTag {
     }
 
     protected Iterator<ActionMessage> toMessageIterator(ActionMessages errors) {
-        return property != null ? errors.get(property) : errors.get();
+        return property != null ? errors.accessByIteratorOf(property) : errors.accessByFlatIterator();
     }
 
     protected String prepareMainMessage(ActionMessage report) throws JspException {

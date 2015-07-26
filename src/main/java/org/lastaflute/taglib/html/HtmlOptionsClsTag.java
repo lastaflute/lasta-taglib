@@ -21,9 +21,6 @@ import javax.servlet.jsp.JspException;
 
 import org.dbflute.jdbc.Classification;
 import org.dbflute.jdbc.ClassificationMeta;
-import org.dbflute.optional.OptionalThing;
-import org.dbflute.optional.OptionalThingFunction;
-import org.lastaflute.db.dbflute.classification.ListedClassificationProvider;
 import org.lastaflute.taglib.base.BaseNonBodyTag;
 import org.lastaflute.taglib.base.TaglibEnhanceLogic;
 
@@ -55,36 +52,20 @@ public class HtmlOptionsClsTag extends BaseNonBodyTag {
     @Override
     public int doEndTag() throws JspException {
         final TaglibEnhanceLogic logic = getEnhanceLogic();
-        final ListedClassificationProvider provider = logic.getListedClassificationProvider();
-        final ClassificationMeta meta = provideClassificationMeta(logic, provider);
-        final OptionalThing<String> aliasKey = determineAlias(logic, provider);
-        final StringBuilder sb = new StringBuilder();
-        final HtmlSelectTag selectTag = selectTag();
-        for (Classification cls : meta.listAll()) {
-            final String code = cls.code();
-            final String alias = aliasKey.map(new OptionalThingFunction<String, String>() {
-                @Override
-                public String apply(String key) {
-                    return (String) cls.subItemMap().get(key);
-                }
-            }).orElse(cls.alias()); // not lambda for Jetty6
-            addOption(sb, code, alias, selectTag.isMatched(code));
-        }
-        write(sb.toString());
-        return EVAL_PAGE;
-    }
-
-    protected ClassificationMeta provideClassificationMeta(TaglibEnhanceLogic logic, ListedClassificationProvider provider) {
-        final ClassificationMeta meta = logic.provideClassificationMeta(provider, name, new Supplier<Object>() {
+        final ClassificationMeta meta = logic.findClassificationMeta(name, new Supplier<Object>() {
             public Object get() {
                 return buildErrorIdentity();
             }
         }); // not lambda for Jetty6
-        return meta;
-    }
-
-    protected OptionalThing<String> determineAlias(TaglibEnhanceLogic logic, ListedClassificationProvider provider) {
-        return provider.determineAlias(logic.getUserLocale());
+        final StringBuilder sb = new StringBuilder();
+        final HtmlSelectTag selectTag = selectTag();
+        for (Classification cls : meta.listAll()) {
+            final String code = cls.code();
+            final String alias = logic.findClassificationAlias(cls);
+            addOption(sb, code, alias, selectTag.isMatched(code));
+        }
+        write(sb.toString());
+        return EVAL_PAGE;
     }
 
     protected void addOption(StringBuilder sb, String value, String label, boolean matched) {
