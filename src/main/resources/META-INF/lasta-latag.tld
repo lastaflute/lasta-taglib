@@ -481,6 +481,7 @@
 		<attribute><name>property</name><required>false</required><rtexprvalue>true</rtexprvalue></attribute>
 		<attribute><name>header</name><required>false</required><rtexprvalue>true</rtexprvalue></attribute>
 		<attribute><name>footer</name><required>false</required><rtexprvalue>true</rtexprvalue></attribute>
+		<dynamic-attributes>true</dynamic-attributes>
 	</tag>
 
 	<!-- ================================================================================= -->
@@ -496,6 +497,7 @@
 		<attribute><name>prefix</name><required>false</required><rtexprvalue>true</rtexprvalue></attribute>
 		<attribute><name>suffix</name><required>false</required><rtexprvalue>true</rtexprvalue></attribute>
 		<attribute><name>styleClass</name><required>false</required><rtexprvalue>false</rtexprvalue></attribute>
+		<dynamic-attributes>true</dynamic-attributes>
 	</tag>
 
 	<!-- _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/ -->
