@@ -170,20 +170,17 @@ public class HtmlLinkTag extends BaseTouchableBodyTag {
         return sb.toString();
     }
 
-    protected String buildHrefUrl(final String input) {
+    protected String buildHrefUrl(String input) {
         final String contextPath = LaRequestUtil.getRequest().getContextPath();
         final StringBuilder sb = new StringBuilder();
         if (contextPath.length() > 1) {
             sb.append(contextPath);
         }
         if (LdiStringUtil.isEmpty(input)) {
-            final String requestPath = getRequestPath();
-            final String actionPath = calculateActionPathByJspPath(requestPath);
-            sb.append(actionPath);
+            sb.append(calculateActionPathByJspPath(getRequestPath()));
         } else if (!input.startsWith("/")) { // add/, ../add/
-            final String requestPath = getRequestPath();
-            final String actionPath = calculateActionPathByJspPath(requestPath);
-            sb.append(actionPath).append(appendSlashRearIfNeeds(input)); // rear slash is added automatically
+            sb.append(calculateActionPathByJspPath(getRequestPath()));
+            sb.append(appendSlashRearIfNeeds(input)); // rear slash is added automatically
         } else { // /member/list/
             resolveAbsolutePath(input, sb);
         }
