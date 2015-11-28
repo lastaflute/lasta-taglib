@@ -51,7 +51,7 @@ public class LaFunctions {
         specialCharactersRepresentation['\''] = "&#039;".toCharArray();
     }
 
-    private static final String VERSION_QUERY = "?v=" + System.currentTimeMillis();
+    private static final String VERSION = String.valueOf(System.currentTimeMillis());
 
     // ===================================================================================
     //                                                                         HTML Escape
@@ -224,10 +224,10 @@ public class LaFunctions {
     }
 
     // ===================================================================================
-    //                                                                       Version Query
-    //                                                                       =============
-    public static String vq() {
-        return VERSION_QUERY;
+    //                                                                             Version
+    //                                                                             =======
+    public static String version() {
+        return VERSION;
     }
 
     // ===================================================================================
