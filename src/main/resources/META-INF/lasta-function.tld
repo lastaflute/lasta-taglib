@@ -72,4 +72,12 @@
 		<function-signature>java.lang.String label(java.lang.Object, java.util.List, java.lang.String, java.lang.String)</function-signature>
 		<example>${f:label(e.departmentId, deptItems, "id", "name")}</example>
 	</function>
+
+	<function>
+		<description>Adds version query for e.g. CSS, JS.</description>
+		<name>vq</name>
+		<function-class>org.lastaflute.taglib.function.LaFunctions</function-class>
+		<function-signature>java.lang.String vq()</function-signature>
+		<example>/sea/land.css${f:vq()}</example>
+	</function>
 </taglib>

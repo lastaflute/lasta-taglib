@@ -42,6 +42,7 @@ public class LaFunctions {
     private static String BR = "<br />";
     private static String NBSP = "&nbsp;";
     private static char[][] specialCharactersRepresentation = new char[HIGHEST_SPECIAL + 1][];
+
     static {
         specialCharactersRepresentation['&'] = "&amp;".toCharArray();
         specialCharactersRepresentation['<'] = "&lt;".toCharArray();
@@ -49,6 +50,8 @@ public class LaFunctions {
         specialCharactersRepresentation['"'] = "&#034;".toCharArray();
         specialCharactersRepresentation['\''] = "&#039;".toCharArray();
     }
+
+    private static final String VERSION_QUERY = "?v=" + System.currentTimeMillis();
 
     // ===================================================================================
     //                                                                         HTML Escape
@@ -218,6 +221,13 @@ public class LaFunctions {
             }
         }
         return "";
+    }
+
+    // ===================================================================================
+    //                                                                       Version Query
+    //                                                                       =============
+    public static String vq() {
+        return VERSION_QUERY;
     }
 
     // ===================================================================================
