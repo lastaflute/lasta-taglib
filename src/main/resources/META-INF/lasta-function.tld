@@ -77,7 +77,7 @@
 		<description>Returns version for e.g. CSS, JS.</description>
 		<name>vq</name>
 		<function-class>org.lastaflute.taglib.function.LaFunctions</function-class>
-		<function-signature>java.lang.String vq()</function-signature>
+		<function-signature>java.lang.String version()</function-signature>
 		<example>/sea/land.css?v=${f:version()}</example>
 	</function>
 </taglib>
