@@ -27,7 +27,7 @@ import org.lastaflute.taglib.base.TaglibEnhanceLogic;
 /**
  * @author modified by jflute (originated in Struts)
  */
-public class HtmlOptionsClsTag extends BaseNonBodyTag {
+public class HtmlOptionClsTag extends BaseNonBodyTag {
 
     private static final long serialVersionUID = 1L;
 
