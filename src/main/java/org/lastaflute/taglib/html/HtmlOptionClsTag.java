@@ -59,7 +59,7 @@ public class HtmlOptionClsTag extends BaseNonBodyTag {
         }); // not lambda for Jetty6
         final StringBuilder sb = new StringBuilder();
         final HtmlSelectTag selectTag = selectTag();
-        for (Classification cls : meta.listAll()) {
+        for (Classification cls : meta.listAll()) { // #pending classification group (see lasta thymeleaf)
             final String code = cls.code();
             final String alias = logic.findClassificationAlias(cls);
             addOption(sb, code, alias, selectTag.isMatched(code));
@@ -85,11 +85,8 @@ public class HtmlOptionClsTag extends BaseNonBodyTag {
             sb.append(styleClass);
             sb.append("\"");
         }
-
         sb.append(">");
-
         sb.append(getEnhanceLogic().filter(label));
-
         sb.append("</option>\n");
     }
 
