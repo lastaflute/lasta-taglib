@@ -155,15 +155,6 @@
 		<attribute><name>styleClass</name><required>false</required><rtexprvalue>true</rtexprvalue></attribute>
 		<dynamic-attributes>true</dynamic-attributes>
 	</tag>
-	<tag> <!-- for compatible -->
-		<name>optionsCls</name>
-		<tag-class>org.lastaflute.taglib.html.HtmlOptionClsTag</tag-class>
-		<body-content>JSP</body-content>
-		<attribute><name>name</name><required>true</required><rtexprvalue>true</rtexprvalue></attribute> <!-- classification -->
-		<attribute><name>style</name><required>false</required><rtexprvalue>true</rtexprvalue></attribute>
-		<attribute><name>styleClass</name><required>false</required><rtexprvalue>true</rtexprvalue></attribute>
-		<dynamic-attributes>true</dynamic-attributes>
-	</tag>
 
 	<!-- ================================================================================= -->
 	<!--                                                                       la:checkbox -->
