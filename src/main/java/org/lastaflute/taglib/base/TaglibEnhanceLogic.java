@@ -54,7 +54,7 @@ import org.lastaflute.taglib.exception.TaglibLabelsResourceNotFoundException;
 import org.lastaflute.taglib.exception.TaglibMessagesResourceNotFoundException;
 import org.lastaflute.taglib.function.LaFunctions;
 import org.lastaflute.web.exception.FormPropertyNotFoundException;
-import org.lastaflute.web.ruts.VirtualActionForm;
+import org.lastaflute.web.ruts.VirtualForm;
 import org.lastaflute.web.ruts.message.ActionMessage;
 import org.lastaflute.web.ruts.message.ActionMessages;
 import org.lastaflute.web.ruts.message.objective.ObjectiveMessageResources;
@@ -70,6 +70,7 @@ public class TaglibEnhanceLogic {
     //                                                                          ==========
     private static final TaglibEnhanceLogic instance = new TaglibEnhanceLogic();
     protected static final Map<String, Integer> scopes = new HashMap<String, Integer>();
+
     static {
         scopes.put("page", new Integer(PageContext.PAGE_SCOPE));
         scopes.put("request", new Integer(PageContext.REQUEST_SCOPE));
@@ -201,8 +202,8 @@ public class TaglibEnhanceLogic {
     //                                        Specified Bean
     //                                        --------------
     public <VALUE> VALUE getProperty(Object bean, String property, Supplier<Object> callerInfo) {
-        if (bean instanceof VirtualActionForm) {
-            return getFormPropertyValue((VirtualActionForm) bean, property, callerInfo);
+        if (bean instanceof VirtualForm) {
+            return getFormPropertyValue((VirtualForm) bean, property, callerInfo);
         }
         final BeanDesc beanDesc = BeanDescFactory.getBeanDesc(bean.getClass());
         final PropertyDesc propertyDesc = beanDesc.getPropertyDesc(property);
@@ -245,7 +246,7 @@ public class TaglibEnhanceLogic {
         }
     }
 
-    protected <VALUE> VALUE getFormPropertyValue(VirtualActionForm form, String property, Supplier<Object> callerInfo) {
+    protected <VALUE> VALUE getFormPropertyValue(VirtualForm form, String property, Supplier<Object> callerInfo) {
         try {
             @SuppressWarnings("unchecked")
             final VALUE found = (VALUE) form.getPropertyValue(property);
