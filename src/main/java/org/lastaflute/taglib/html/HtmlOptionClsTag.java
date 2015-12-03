@@ -27,7 +27,7 @@ import org.lastaflute.taglib.base.TaglibEnhanceLogic;
 /**
  * @author modified by jflute (originated in Struts)
  */
-public class HtmlOptionsClsTag extends BaseNonBodyTag {
+public class HtmlOptionClsTag extends BaseNonBodyTag {
 
     private static final long serialVersionUID = 1L;
 
@@ -59,7 +59,7 @@ public class HtmlOptionsClsTag extends BaseNonBodyTag {
         }); // not lambda for Jetty6
         final StringBuilder sb = new StringBuilder();
         final HtmlSelectTag selectTag = selectTag();
-        for (Classification cls : meta.listAll()) {
+        for (Classification cls : meta.listAll()) { // #pending classification group (see lasta thymeleaf)
             final String code = cls.code();
             final String alias = logic.findClassificationAlias(cls);
             addOption(sb, code, alias, selectTag.isMatched(code));
@@ -85,11 +85,8 @@ public class HtmlOptionsClsTag extends BaseNonBodyTag {
             sb.append(styleClass);
             sb.append("\"");
         }
-
         sb.append(">");
-
         sb.append(getEnhanceLogic().filter(label));
-
         sb.append("</option>\n");
     }
 

@@ -34,7 +34,7 @@ import org.lastaflute.web.LastaWebKey;
 import org.lastaflute.web.exception.ActionFormNotFoundException;
 import org.lastaflute.web.path.ActionFoundPathHandler;
 import org.lastaflute.web.path.ActionPathResolver;
-import org.lastaflute.web.ruts.VirtualActionForm;
+import org.lastaflute.web.ruts.VirtualForm;
 import org.lastaflute.web.ruts.config.ActionExecute;
 import org.lastaflute.web.ruts.config.ActionFormMeta;
 import org.lastaflute.web.servlet.request.RequestManager;
@@ -206,7 +206,7 @@ public class MappingHtmlFormTag extends HtmlFormTag {
         final int requestScope = PageContext.REQUEST_SCOPE;
         final Object pushedForm = pageContext.getAttribute(LastaWebKey.PUSHED_ACTION_FORM_KEY, requestScope);
         if (pushedForm != null) {
-            beanName = ((VirtualActionForm) pushedForm).getFormMeta().getFormKey();
+            beanName = ((VirtualForm) pushedForm).getFormMeta().getFormKey();
             pageContext.setAttribute(beanName, pushedForm, requestScope); // translate
             return;
         }

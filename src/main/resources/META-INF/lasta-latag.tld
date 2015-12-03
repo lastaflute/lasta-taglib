@@ -144,11 +144,11 @@
 	</tag>
 
 	<!-- ================================================================================= -->
-	<!--                                                                     la:optionsCls -->
-	<!--                                                                     ============= -->
+	<!--                                                                      la:optionCls -->
+	<!--                                                                      ============ -->
 	<tag>
-		<name>optionsCls</name>
-		<tag-class>org.lastaflute.taglib.html.HtmlOptionsClsTag</tag-class>
+		<name>optionCls</name>
+		<tag-class>org.lastaflute.taglib.html.HtmlOptionClsTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute><name>name</name><required>true</required><rtexprvalue>true</rtexprvalue></attribute> <!-- classification -->
 		<attribute><name>style</name><required>false</required><rtexprvalue>true</rtexprvalue></attribute>
