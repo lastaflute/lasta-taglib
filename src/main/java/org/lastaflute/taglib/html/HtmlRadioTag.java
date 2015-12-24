@@ -46,8 +46,11 @@ public class HtmlRadioTag extends BaseTouchableBodyTag {
         prepareAttribute(sb, "tabindex", getTabindex());
         final String value = getValue();
         prepareAttribute(sb, "value", value);
-        if (value != null && value.equals(lookupProperty(name, property))) {
-            sb.append(" checked=\"checked\"");
+        final Object lookup = lookupProperty(name, property); // may be String, CDef
+        if (lookup != null) {
+            if (value != null && value.equals(lookup.toString())) { // toString() for CDef
+                sb.append(" checked=\"checked\"");
+            }
         }
         sb.append(prepareEventHandlers());
         sb.append(prepareStyles());
