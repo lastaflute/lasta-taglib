@@ -23,8 +23,8 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 import javax.servlet.jsp.tagext.DynamicAttributes;
 
+import org.lastaflute.core.message.UserMessage;
 import org.lastaflute.core.util.ContainerUtil;
-import org.lastaflute.web.ruts.message.ActionMessage;
 import org.lastaflute.web.servlet.request.RequestManager;
 import org.lastaflute.web.servlet.session.SessionManager;
 
@@ -62,7 +62,7 @@ public abstract class BaseBodyTag extends BodyTagSupport implements DynamicAttri
         return getEnhanceLogic().message(pageContext, key, args, prepareCallerInfo());
     }
 
-    protected String message(ActionMessage report) throws JspException {
+    protected String message(UserMessage report) throws JspException {
         return getEnhanceLogic().message(pageContext, report, prepareCallerInfo());
     }
 

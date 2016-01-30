@@ -39,6 +39,8 @@ import org.dbflute.optional.OptionalThingFunction;
 import org.dbflute.util.DfStringUtil;
 import org.lastaflute.core.direction.FwAssistantDirector;
 import org.lastaflute.core.message.MessageManager;
+import org.lastaflute.core.message.UserMessage;
+import org.lastaflute.core.message.UserMessages;
 import org.lastaflute.core.message.exception.MessageKeyNotFoundException;
 import org.lastaflute.core.util.ContainerUtil;
 import org.lastaflute.db.dbflute.classification.ListedClassificationProvider;
@@ -55,8 +57,6 @@ import org.lastaflute.taglib.exception.TaglibMessagesResourceNotFoundException;
 import org.lastaflute.taglib.function.LaFunctions;
 import org.lastaflute.web.exception.FormPropertyNotFoundException;
 import org.lastaflute.web.ruts.VirtualForm;
-import org.lastaflute.web.ruts.message.ActionMessage;
-import org.lastaflute.web.ruts.message.ActionMessages;
 import org.lastaflute.web.ruts.message.objective.ObjectiveMessageResources;
 import org.lastaflute.web.servlet.request.RequestManager;
 
@@ -260,9 +260,9 @@ public class TaglibEnhanceLogic {
     // ===================================================================================
     //                                                                      Action Mapping
     //                                                                      ==============
-    public ActionMessages findActionMessages(PageContext pageContext, String paramName) throws JspException {
-        final ActionMessages messages = (ActionMessages) pageContext.findAttribute(paramName);
-        return messages != null ? messages : new ActionMessages(); // if null, empty
+    public UserMessages findUserMessages(PageContext pageContext, String paramName) throws JspException {
+        final UserMessages messages = (UserMessages) pageContext.findAttribute(paramName);
+        return messages != null ? messages : new UserMessages(); // if null, empty
     }
 
     // ===================================================================================
@@ -276,8 +276,8 @@ public class TaglibEnhanceLogic {
         return message(pageContext, key, null, callerInfo);
     }
 
-    public String message(PageContext pageContext, ActionMessage report, Supplier<Object> callerInfo) {
-        final String key = report.getKey();
+    public String message(PageContext pageContext, UserMessage report, Supplier<Object> callerInfo) {
+        final String key = report.getMessageKey();
         return report.isResource() ? message(pageContext, key, report.getValues(), callerInfo) : key;
     }
 

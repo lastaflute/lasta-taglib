@@ -149,7 +149,7 @@ public abstract class BaseTouchableBodyTag extends BaseBodyTag {
         if (getErrorStyleId() != null || getErrorStyle() != null || getErrorStyleClass() != null) {
             final String actualName = prepareName();
             if (actualName != null) {
-                errorsExist = getEnhanceLogic().findActionMessages(pageContext, errorKey).size(actualName) > 0;
+                errorsExist = getEnhanceLogic().findUserMessages(pageContext, errorKey).size(actualName) > 0;
             }
         }
         return errorsExist;
