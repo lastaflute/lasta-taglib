@@ -15,14 +15,17 @@
  */
 package org.lastaflute.taglib.html;
 
+import java.util.List;
 import java.util.function.Supplier;
 
 import javax.servlet.jsp.JspException;
 
 import org.dbflute.jdbc.Classification;
 import org.dbflute.jdbc.ClassificationMeta;
+import org.dbflute.util.Srl;
 import org.lastaflute.taglib.base.BaseNonBodyTag;
 import org.lastaflute.taglib.base.TaglibEnhanceLogic;
+import org.lastaflute.taglib.exception.TaglibClassificationNotFoundException;
 
 /**
  * @author modified by jflute (originated in Struts)
@@ -31,6 +34,10 @@ public class HtmlOptionClsTag extends BaseNonBodyTag {
 
     private static final long serialVersionUID = 1L;
 
+    // ===================================================================================
+    //                                                                          Definition
+    //                                                                          ==========
+    public static final String GROUP_DELIMITER = ".";
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
@@ -52,20 +59,42 @@ public class HtmlOptionClsTag extends BaseNonBodyTag {
     @Override
     public int doEndTag() throws JspException {
         final TaglibEnhanceLogic logic = getEnhanceLogic();
-        final ClassificationMeta meta = logic.findClassificationMeta(name, new Supplier<Object>() {
-            public Object get() {
-                return buildErrorIdentity();
-            }
-        }); // not lambda for Jetty6
         final StringBuilder sb = new StringBuilder();
         final HtmlSelectTag selectTag = selectTag();
-        for (Classification cls : meta.listAll()) { // #pending classification group (see lasta thymeleaf)
+        for (Classification cls : classificationList()) {
             final String code = cls.code();
             final String alias = logic.findClassificationAlias(cls);
             addOption(sb, code, alias, selectTag.isMatched(code));
         }
         write(sb.toString());
         return EVAL_PAGE;
+    }
+
+    protected List<Classification> classificationList() {
+        final String delimiter = GROUP_DELIMITER;
+        final String pureName;
+        final String groupName;
+        if (name.contains(delimiter)) { // e.g. sea.land or maihamadb-sea.land
+            pureName = Srl.substringFirstFront(name, delimiter); // e.g. sea or maihamadb-sea
+            groupName = Srl.substringFirstRear(name, delimiter); // e.g. land
+        } else { // e.g. sea or maihamadb-sea
+            pureName = name;
+            groupName = null;
+        }
+        final ClassificationMeta meta = getEnhanceLogic().findClassificationMeta(pureName, new Supplier<Object>() {
+            public Object get() {
+                return buildErrorIdentity();
+            }
+        }); // not lambda for Jetty6
+        if (groupName != null) {
+            final List<Classification> groupOfList = meta.groupOf(groupName);
+            if (groupOfList.isEmpty()) { // means not found
+                throw new TaglibClassificationNotFoundException("Not found the classification group: " + groupName + " of " + pureName);
+            }
+            return groupOfList;
+        } else {
+            return meta.listAll();
+        }
     }
 
     protected void addOption(StringBuilder sb, String value, String label, boolean matched) {
