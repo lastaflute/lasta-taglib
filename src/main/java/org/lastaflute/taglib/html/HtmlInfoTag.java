@@ -19,10 +19,10 @@ import java.util.Iterator;
 
 import javax.servlet.jsp.JspException;
 
+import org.lastaflute.core.message.UserMessage;
+import org.lastaflute.core.message.UserMessages;
 import org.lastaflute.taglib.base.BaseBodyTag;
 import org.lastaflute.web.LastaWebKey;
-import org.lastaflute.web.ruts.message.ActionMessage;
-import org.lastaflute.web.ruts.message.ActionMessages;
 
 /**
  * @author modified by jflute (originated in Struts)
@@ -42,7 +42,7 @@ public class HtmlInfoTag extends BaseBodyTag {
     // -----------------------------------------------------
     //                                     Internal Handling
     //                                     -----------------
-    protected Iterator<ActionMessage> iterator;
+    protected Iterator<UserMessage> iterator;
     protected boolean processed;
 
     // ===================================================================================
@@ -51,8 +51,8 @@ public class HtmlInfoTag extends BaseBodyTag {
     @Override
     public int doStartTag() throws JspException {
         processed = false;
-        final ActionMessages messages = extractActionMessages();
-        iterator = toMessageIterator(messages != null ? messages : new ActionMessages());
+        final UserMessages messages = extractUserMessages();
+        iterator = toMessageIterator(messages != null ? messages : new UserMessages());
         if (!iterator.hasNext()) {
             return SKIP_BODY;
         }
@@ -64,15 +64,15 @@ public class HtmlInfoTag extends BaseBodyTag {
         return EVAL_BODY_BUFFERED;
     }
 
-    protected ActionMessages extractActionMessages() throws JspException {
-        return getEnhanceLogic().findActionMessages(pageContext, getMessagesAttributeKey());
+    protected UserMessages extractUserMessages() throws JspException {
+        return getEnhanceLogic().findUserMessages(pageContext, getMessagesAttributeKey());
     }
 
     protected String getMessagesAttributeKey() {
         return LastaWebKey.ACTION_INFO_KEY;
     }
 
-    protected Iterator<ActionMessage> toMessageIterator(ActionMessages messages) {
+    protected Iterator<UserMessage> toMessageIterator(UserMessages messages) {
         return property != null ? messages.accessByIteratorOf(property) : messages.accessByFlatIterator();
     }
 

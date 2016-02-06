@@ -19,10 +19,10 @@ import java.util.Iterator;
 
 import javax.servlet.jsp.JspException;
 
+import org.lastaflute.core.message.UserMessage;
+import org.lastaflute.core.message.UserMessages;
 import org.lastaflute.taglib.base.BaseNonBodyTag;
 import org.lastaflute.web.LastaWebKey;
-import org.lastaflute.web.ruts.message.ActionMessage;
-import org.lastaflute.web.ruts.message.ActionMessages;
 
 /**
  * @author modified by jflute (originated in Struts)
@@ -51,7 +51,7 @@ public class HtmlErrorsTag extends BaseNonBodyTag {
     //                                                                           =========
     @Override
     public int doStartTag() throws JspException {
-        final ActionMessages errors = extractActionErrors();
+        final UserMessages errors = extractActionErrors();
         if (errors.isEmpty()) {
             return EVAL_BODY_INCLUDE;
         }
@@ -74,24 +74,24 @@ public class HtmlErrorsTag extends BaseNonBodyTag {
         return EVAL_BODY_INCLUDE;
     }
 
-    protected ActionMessages extractActionErrors() throws JspException {
-        return getEnhanceLogic().findActionMessages(pageContext, getMessagesAttributeKey());
+    protected UserMessages extractActionErrors() throws JspException {
+        return getEnhanceLogic().findUserMessages(pageContext, getMessagesAttributeKey());
     }
 
     protected String getMessagesAttributeKey() {
         return LastaWebKey.ACTION_ERRORS_KEY;
     }
 
-    protected String buildTagExp(ActionMessages errors) throws JspException {
+    protected String buildTagExp(UserMessages errors) throws JspException {
         final boolean headerPresent = present(getHeader());
         final boolean footerPresent = present(getFooter());
         final boolean prefixPresent = present(getPrefix());
         final boolean suffixPresent = present(getSuffix());
         final StringBuilder results = new StringBuilder();
         boolean headerDone = false;
-        final Iterator<ActionMessage> reports = toMessageIterator(errors);
+        final Iterator<UserMessage> reports = toMessageIterator(errors);
         while (reports.hasNext()) {
-            final ActionMessage report = reports.next();
+            final UserMessage report = reports.next();
             if (!headerDone) {
                 setupHeader(headerPresent, results);
                 headerDone = true;
@@ -113,15 +113,15 @@ public class HtmlErrorsTag extends BaseNonBodyTag {
         return results.toString();
     }
 
-    protected Iterator<ActionMessage> toMessageIterator(ActionMessages errors) {
+    protected Iterator<UserMessage> toMessageIterator(UserMessages errors) {
         return property != null ? errors.accessByIteratorOf(property) : errors.accessByFlatIterator();
     }
 
-    protected String prepareMainMessage(ActionMessage report) throws JspException {
+    protected String prepareMainMessage(UserMessage report) throws JspException {
         return message(report);
     }
 
-    protected boolean isSuppressMessageLine(StringBuilder results, ActionMessage report, String mainMessage) {
+    protected boolean isSuppressMessageLine(StringBuilder results, UserMessage report, String mainMessage) {
         return false; // you can add original rule by overriding
     }
 
@@ -140,7 +140,7 @@ public class HtmlErrorsTag extends BaseNonBodyTag {
         results.append(message(getPrefix()));
     }
 
-    protected void setupMessage(StringBuilder results, ActionMessage report, String mainMessage) throws JspException {
+    protected void setupMessage(StringBuilder results, UserMessage report, String mainMessage) throws JspException {
         if (mainMessage != null) {
             results.append(mainMessage);
         }
