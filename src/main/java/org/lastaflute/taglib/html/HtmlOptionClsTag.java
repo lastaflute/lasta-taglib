@@ -29,6 +29,7 @@ import org.lastaflute.taglib.exception.TaglibClassificationNotFoundException;
 
 /**
  * @author modified by jflute (originated in Struts)
+ * @author black-trooper (pull request)
  */
 public class HtmlOptionClsTag extends BaseNonBodyTag {
 
@@ -38,6 +39,7 @@ public class HtmlOptionClsTag extends BaseNonBodyTag {
     //                                                                          Definition
     //                                                                          ==========
     public static final String GROUP_DELIMITER = ".";
+
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
