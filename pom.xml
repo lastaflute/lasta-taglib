@@ -7,7 +7,7 @@
 	<version>0.7.0</version>
 	<packaging>jar</packaging>
 
-	<name>LastaFlute</name>
+	<name>Lasta Taglib</name>
 	<description>Tag libraries for LastaFlute, super forked from Struts and SAStruts as Java8</description>
 	<url>http://dbflute.org/lastaflute</url>
 	<inceptionYear>2015</inceptionYear>
