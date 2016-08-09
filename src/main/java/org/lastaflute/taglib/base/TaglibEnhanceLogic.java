@@ -15,7 +15,6 @@
  */
 package org.lastaflute.taglib.base;
 
-import java.io.CharArrayWriter;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.Collection;
@@ -475,26 +474,31 @@ public class TaglibEnhanceLogic {
     }
 
     protected String escapeInnerDoubleQuote(String str) {
-        if (str == null || str.trim().length() == 0) {
-            return str;
-        }
-        final String filtered;
-        if (str.contains("\\") || str.contains("\"")) {
-            final CharArrayWriter caw = new CharArrayWriter(128);
-            final char[] chars = str.toCharArray();
-            for (int i = 0; i < chars.length; i++) {
-                if (chars[i] == '\\') {
-                    caw.append(chars[i]);
-                } else if (chars[i] == '"') {
-                    caw.append('\\');
-                }
-                caw.append(chars[i]);
-            }
-            filtered = caw.toString();
-        } else {
-            filtered = str;
-        }
-        return filtered;
+        return str;
+
+        // quit escape because of unneeded
+        // for example, back-slash should be plainly rendered
+        // and double quotation should be escaped manually on JSP
+        //if (str == null || str.trim().length() == 0) {
+        //    return str;
+        //}
+        //final String filtered;
+        //if (str.contains("\\") || str.contains("\"")) {
+        //    final CharArrayWriter caw = new CharArrayWriter(128);
+        //    final char[] chars = str.toCharArray();
+        //    for (int i = 0; i < chars.length; i++) {
+        //        if (chars[i] == '\\') {
+        //            caw.append(chars[i]);
+        //        } else if (chars[i] == '"') {
+        //            caw.append('\\');
+        //        }
+        //        caw.append(chars[i]);
+        //    }
+        //    filtered = caw.toString();
+        //} else {
+        //    filtered = str;
+        //}
+        //return filtered;
     }
 
     // ===================================================================================
