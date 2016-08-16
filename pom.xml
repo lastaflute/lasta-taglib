@@ -4,16 +4,16 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.lastaflute.html</groupId>
 	<artifactId>lasta-taglib</artifactId>
-	<version>0.6.9</version>
+	<version>0.7.1</version>
 	<packaging>jar</packaging>
 
-	<name>LastaFlute</name>
+	<name>Lasta Taglib</name>
 	<description>Tag libraries for LastaFlute, super forked from Struts and SAStruts as Java8</description>
 	<url>http://dbflute.org/lastaflute</url>
 	<inceptionYear>2015</inceptionYear>
 
 	<properties>
-		<lastaflute.version>0.8.2</lastaflute.version>
+		<lastaflute.version>0.8.3</lastaflute.version>
 		<servlet.version>3.1.0</servlet.version>
 		<jsp.version>2.3.1</jsp.version>
 		<utflute.version>0.6.0F</utflute.version>

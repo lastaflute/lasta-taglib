@@ -20,14 +20,51 @@ package org.lastaflute.taglib.base;
  */
 public class DynamicTagAttribute {
 
+    // ===================================================================================
+    //                                                                           Attribute
+    //                                                                           =========
     protected final String key;
     protected final Object value;
 
+    // ===================================================================================
+    //                                                                         Constructor
+    //                                                                         ===========
     public DynamicTagAttribute(String key, String value) {
         this.key = key;
         this.value = value;
     }
 
+    // ===================================================================================
+    //                                                                      Basic Override
+    //                                                                      ==============
+    // required to avoid duplicate attribute
+    // (release() is unavailable for clearance)
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof DynamicTagAttribute)) {
+            return false;
+        }
+        final String yourKey = ((DynamicTagAttribute) obj).key;
+        if (key == null && yourKey == null) {
+            return true;
+        } else {
+            return key != null && yourKey != null && key.equals(yourKey);
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return key != null ? key.hashCode() : 0;
+    }
+
+    @Override
+    public String toString() {
+        return "dynamicTag:{" + key + ", " + value + "}";
+    }
+
+    // ===================================================================================
+    //                                                                            Accessor
+    //                                                                            ========
     public String getKey() {
         return key;
     }

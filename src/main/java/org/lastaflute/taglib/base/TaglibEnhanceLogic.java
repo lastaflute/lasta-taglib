@@ -15,7 +15,6 @@
  */
 package org.lastaflute.taglib.base;
 
-import java.io.CharArrayWriter;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.Collection;
@@ -37,6 +36,7 @@ import org.dbflute.jdbc.ClassificationMeta;
 import org.dbflute.optional.OptionalThing;
 import org.dbflute.optional.OptionalThingFunction;
 import org.dbflute.util.DfStringUtil;
+import org.dbflute.util.Srl;
 import org.lastaflute.core.direction.FwAssistantDirector;
 import org.lastaflute.core.message.MessageManager;
 import org.lastaflute.core.message.UserMessage;
@@ -475,26 +475,10 @@ public class TaglibEnhanceLogic {
     }
 
     protected String escapeInnerDoubleQuote(String str) {
-        if (str == null || str.trim().length() == 0) {
-            return str;
-        }
-        final String filtered;
-        if (str.contains("\\") || str.contains("\"")) {
-            final CharArrayWriter caw = new CharArrayWriter(128);
-            final char[] chars = str.toCharArray();
-            for (int i = 0; i < chars.length; i++) {
-                if (chars[i] == '\\') {
-                    caw.append(chars[i]);
-                } else if (chars[i] == '"') {
-                    caw.append('\\');
-                }
-                caw.append(chars[i]);
-            }
-            filtered = caw.toString();
-        } else {
-            filtered = str;
-        }
-        return filtered;
+        // same specification as Thymeleaf
+        // o &quot; on JSP => real double quotation here => &quot; on HTML
+        // o real back-slash on HTML => real back-slash on HTML (no escape)
+        return str != null ? Srl.replace(str, "\"", "&quot;") : null;
     }
 
     // ===================================================================================

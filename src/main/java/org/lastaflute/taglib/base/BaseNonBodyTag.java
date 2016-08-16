@@ -57,6 +57,7 @@ public abstract class BaseNonBodyTag extends TagSupport implements DynamicAttrib
 
     protected void prepareDynamicAttributes(StringBuilder sb) {
         sb.append(buildDynamicAttributeExp());
+        clearDynamicAttributes(); // taglib instance may be shared with other tags so need to clear
     }
 
     protected String buildDynamicAttributeExp() {
@@ -68,6 +69,13 @@ public abstract class BaseNonBodyTag extends TagSupport implements DynamicAttrib
             dynamicAttributes = new LinkedHashSet<DynamicTagAttribute>(4);
         }
         return dynamicAttributes;
+    }
+
+    protected void clearDynamicAttributes() {
+        if (dynamicAttributes != null) {
+            dynamicAttributes.clear();
+            dynamicAttributes = null;
+        }
     }
 
     // ===================================================================================
@@ -148,8 +156,6 @@ public abstract class BaseNonBodyTag extends TagSupport implements DynamicAttrib
     @Override
     public void release() {
         super.release();
-        if (dynamicAttributes != null) {
-            dynamicAttributes.clear();
-        }
+        clearDynamicAttributes();
     }
 }
