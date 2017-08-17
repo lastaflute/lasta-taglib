@@ -345,9 +345,11 @@ public class TaglibEnhanceLogic {
      * @throws BrTaglibLabelsResourceNotFoundException When the resource key is not found in the resource if the key is for label.
      */
     public String resolveAutocompleteResource(PageContext pageContext, String value, Supplier<Object> callerInfo) {
-        if (value != null && !value.equals("on") && !value.equals("off")) {
-            throwAutocompleteInvalidValueException(value, callerInfo);
-        }
+        // no check because the value can be free word recently by jflute (2017/08/17)
+        //  e.g. autocomplete="new-password"
+        //if (value != null && !value.equals("on") && !value.equals("off")) {
+        //    throwAutocompleteInvalidValueException(value, callerInfo);
+        //}
         return value;
     }
 
