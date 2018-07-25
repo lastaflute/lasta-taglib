@@ -276,20 +276,33 @@ public class TaglibEnhanceLogic {
         return message(pageContext, key, null, callerInfo);
     }
 
-    public String message(PageContext pageContext, UserMessage report, Supplier<Object> callerInfo) {
+    public String message(PageContext pageContext, UserMessage report, Supplier<Object> callerInfo) { // args will be HTML-escaped
         final String key = report.getMessageKey();
         return report.isResource() ? message(pageContext, key, report.getValues(), callerInfo) : key;
     }
 
-    public String message(PageContext pageContext, String key, Object[] args, Supplier<Object> callerInfo) {
-        final MessageManager manager = getMessageManager();
+    public String message(PageContext pageContext, String key, Object[] args, Supplier<Object> callerInfo) { // args will be HTML-escaped
         final Locale locale = getUserLocale();
         try {
-            return args != null ? manager.getMessage(locale, key, args) : manager.getMessage(locale, key);
+            htmlEscapeMessageArgs(args);
+            return findMessage(locale, key, args); // not null
         } catch (MessageKeyNotFoundException e) {
             throwMessagesResourceNotFoundException(key, locale, callerInfo, e);
             return null; // unreachable
         }
+    }
+
+    protected void htmlEscapeMessageArgs(Object[] args) {
+        if (args != null) {
+            for (int i = 0; i < args.length; i++) {
+                args[i] = LaFunctions.h(args[i]);
+            }
+        }
+    }
+
+    protected String findMessage(Locale locale, String key, Object[] args) {
+        final MessageManager manager = getMessageManager();
+        return args != null ? manager.getMessage(locale, key, args) : manager.getMessage(locale, key);
     }
 
     protected void throwMessagesResourceNotFoundException(String resourceKey, Locale locale, Supplier<Object> callerInfo,
