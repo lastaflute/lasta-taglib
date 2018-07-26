@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.lastaflute.html</groupId>
 	<artifactId>lasta-taglib</artifactId>
-	<version>0.7.2</version>
+	<version>0.7.3</version>
 	<packaging>jar</packaging>
 
 	<name>Lasta Taglib</name>
@@ -16,7 +16,7 @@
 		<lastaflute.version>0.9.9</lastaflute.version>
 		<servlet.version>3.1.0</servlet.version>
 		<jsp.version>2.3.1</jsp.version>
-		<utflute.version>0.8.1</utflute.version>
+		<utflute.version>0.8.7</utflute.version>
 	</properties>
 
 	<licenses>
