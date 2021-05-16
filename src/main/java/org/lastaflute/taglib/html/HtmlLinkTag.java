@@ -30,6 +30,7 @@ import org.lastaflute.taglib.exception.TaglibLinkActionNotFoundException;
 import org.lastaflute.web.LastaWebKey;
 import org.lastaflute.web.path.ActionFoundPathHandler;
 import org.lastaflute.web.path.ActionPathResolver;
+import org.lastaflute.web.path.MappingPathResource;
 import org.lastaflute.web.ruts.config.ActionExecute;
 import org.lastaflute.web.servlet.request.RequestManager;
 import org.lastaflute.web.servlet.session.SessionManager;
@@ -194,7 +195,7 @@ public class HtmlLinkTag extends BaseTouchableBodyTag {
         final ActionPathResolver resolver = getActionResolver();
         try {
             final ActionFoundPathHandler handler = createActionPathHandler(sb, path, queryString);
-            final boolean handled = resolver.handleActionPath(path, handler);
+            final boolean handled = resolver.handleActionPath(path, handler).isPathHandled();
             if (!handled) {
                 throwLinkActionNotFoundException(path, queryString);
             }
@@ -211,7 +212,7 @@ public class HtmlLinkTag extends BaseTouchableBodyTag {
     protected ActionFoundPathHandler createActionPathHandler(final StringBuilder sb, final String path, final String queryString) {
         return new ActionFoundPathHandler() {
             @Override
-            public boolean handleActionPath(String requestPath, String actionName, String paramPath, ActionExecute execute)
+            public boolean handleActionPath(MappingPathResource pathResource, String actionName, String paramPath, ActionExecute execute)
                     throws IOException, ServletException {
                 // not use actionPath because the path may have prefix
                 // see the form tag class for the details

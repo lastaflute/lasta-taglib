@@ -34,6 +34,7 @@ import org.lastaflute.web.LastaWebKey;
 import org.lastaflute.web.exception.ActionFormNotFoundException;
 import org.lastaflute.web.path.ActionFoundPathHandler;
 import org.lastaflute.web.path.ActionPathResolver;
+import org.lastaflute.web.path.MappingPathResource;
 import org.lastaflute.web.ruts.VirtualForm;
 import org.lastaflute.web.ruts.config.ActionExecute;
 import org.lastaflute.web.ruts.config.ActionFormMeta;
@@ -76,7 +77,7 @@ public class MappingHtmlFormTag extends HtmlFormTag {
         final ActionPathResolver resolver = getActionResolver();
         try {
             final ActionFoundPathHandler handler = createActionPathHandler(path, queryString);
-            final boolean handled = resolver.handleActionPath(path, handler);
+            final boolean handled = resolver.handleActionPath(path, handler).isPathHandled();
             if (!handled) {
                 throwFormActionNotFoundException(path, queryString);
             }
@@ -116,8 +117,8 @@ public class MappingHtmlFormTag extends HtmlFormTag {
 
     protected ActionFoundPathHandler createActionPathHandler(final String path, final String queryString) {
         return new ActionFoundPathHandler() {
-            public boolean handleActionPath(String requestPath, String actionName, String paramPath, ActionExecute configByParam)
-                    throws IOException, ServletException {
+            public boolean handleActionPath(MappingPathResource pathResource, String actionName, String paramPath,
+                    ActionExecute configByParam) throws IOException, ServletException {
                 return processActionMapping(path, queryString, actionName, paramPath, configByParam);
             }
         };
