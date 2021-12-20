@@ -35,6 +35,7 @@ import org.lastaflute.web.exception.ActionFormNotFoundException;
 import org.lastaflute.web.path.ActionFoundPathHandler;
 import org.lastaflute.web.path.ActionPathResolver;
 import org.lastaflute.web.path.MappingPathResource;
+import org.lastaflute.web.path.RoutingParamPath;
 import org.lastaflute.web.ruts.VirtualForm;
 import org.lastaflute.web.ruts.config.ActionExecute;
 import org.lastaflute.web.ruts.config.ActionFormMeta;
@@ -117,9 +118,9 @@ public class MappingHtmlFormTag extends HtmlFormTag {
 
     protected ActionFoundPathHandler createActionPathHandler(final String path, final String queryString) {
         return new ActionFoundPathHandler() {
-            public boolean handleActionPath(MappingPathResource pathResource, String actionName, String paramPath,
-                    ActionExecute configByParam) throws IOException, ServletException {
-                return processActionMapping(path, queryString, actionName, paramPath, configByParam);
+            public boolean handleActionPath(MappingPathResource pathResource, String actionName, RoutingParamPath paramPath,
+                    ActionExecute methodByParam) throws IOException, ServletException {
+                return processActionMapping(path, queryString, actionName, paramPath, methodByParam);
             }
         };
     }
@@ -157,7 +158,7 @@ public class MappingHtmlFormTag extends HtmlFormTag {
     // ===================================================================================
     //                                                                      Action Mapping
     //                                                                      ==============
-    protected boolean processActionMapping(String path, String queryString, String actionKey, String paramPath,
+    protected boolean processActionMapping(String path, String queryString, String actionKey, RoutingParamPath paramPath,
             ActionExecute configByParam) {
         if (isInternalDebug()) {
             debugInternally("...Processing action mapping");
