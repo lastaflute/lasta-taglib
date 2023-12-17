@@ -17,12 +17,12 @@ package org.lastaflute.taglib.html;
 
 import java.util.Iterator;
 
-import javax.servlet.jsp.JspException;
-
 import org.lastaflute.core.message.UserMessage;
 import org.lastaflute.core.message.UserMessages;
 import org.lastaflute.taglib.base.BaseBodyTag;
 import org.lastaflute.web.LastaWebKey;
+
+import jakarta.servlet.jsp.JspException;
 
 /**
  * @author modified by jflute (originated in Struts)

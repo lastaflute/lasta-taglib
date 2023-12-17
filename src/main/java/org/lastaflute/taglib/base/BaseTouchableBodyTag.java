@@ -18,13 +18,13 @@ package org.lastaflute.taglib.base;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.PageContext;
-
 import org.lastaflute.taglib.html.HtmlFormTag;
 import org.lastaflute.web.LastaWebKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import jakarta.servlet.jsp.JspException;
+import jakarta.servlet.jsp.PageContext;
 
 /**
  * @author modified by jflute (originated in Struts)
