@@ -15,10 +15,10 @@
  */
 package org.lastaflute.taglib.html;
 
-import javax.servlet.jsp.JspException;
-
 import org.lastaflute.taglib.base.BaseTouchableBodyTag;
 import org.lastaflute.taglib.base.TaglibAttributeKey;
+
+import jakarta.servlet.jsp.JspException;
 
 /**
  * @author modified by jflute (originated in Struts)

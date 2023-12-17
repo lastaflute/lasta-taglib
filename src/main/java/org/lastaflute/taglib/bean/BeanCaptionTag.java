@@ -15,9 +15,9 @@
  */
 package org.lastaflute.taglib.bean;
 
-import javax.servlet.jsp.JspException;
-
 import org.lastaflute.taglib.base.BaseNonBodyTag;
+
+import jakarta.servlet.jsp.JspException;
 
 /**
  * The tag for label resource.

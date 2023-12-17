@@ -18,14 +18,14 @@ package org.lastaflute.taglib.html;
 import java.util.List;
 import java.util.function.Supplier;
 
-import javax.servlet.jsp.JspException;
-
 import org.dbflute.jdbc.Classification;
 import org.dbflute.jdbc.ClassificationMeta;
 import org.dbflute.util.Srl;
 import org.lastaflute.taglib.base.BaseNonBodyTag;
 import org.lastaflute.taglib.base.TaglibEnhanceLogic;
 import org.lastaflute.taglib.exception.TaglibClassificationNotFoundException;
+
+import jakarta.servlet.jsp.JspException;
 
 /**
  * @author modified by jflute (originated in Struts)

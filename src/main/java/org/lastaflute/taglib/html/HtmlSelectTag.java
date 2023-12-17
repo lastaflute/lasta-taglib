@@ -17,11 +17,11 @@ package org.lastaflute.taglib.html;
 
 import java.util.function.Supplier;
 
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.PageContext;
-
 import org.lastaflute.taglib.base.BaseTouchableBodyTag;
 import org.lastaflute.taglib.base.TaglibAttributeKey;
+
+import jakarta.servlet.jsp.JspException;
+import jakarta.servlet.jsp.PageContext;
 
 /**
  * @author modified by jflute (originated in Struts)

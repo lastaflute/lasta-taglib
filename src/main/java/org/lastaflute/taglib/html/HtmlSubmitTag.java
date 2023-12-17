@@ -15,9 +15,9 @@
  */
 package org.lastaflute.taglib.html;
 
-import javax.servlet.jsp.JspException;
-
 import org.lastaflute.taglib.base.BaseTouchableBodyTag;
+
+import jakarta.servlet.jsp.JspException;
 
 /**
  * @author modified by jflute (originated in Struts)

@@ -17,10 +17,10 @@ package org.lastaflute.taglib.bean;
 
 import java.util.function.Supplier;
 
-import javax.servlet.jsp.JspException;
-
 import org.lastaflute.taglib.base.BaseNonBodyTag;
 import org.lastaflute.taglib.base.TaglibEnhanceLogic;
+
+import jakarta.servlet.jsp.JspException;
 
 /**
  * The tag for classification caption.
