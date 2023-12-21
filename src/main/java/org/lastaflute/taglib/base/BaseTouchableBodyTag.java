@@ -257,9 +257,9 @@ public abstract class BaseTouchableBodyTag extends BaseBodyTag {
         if (!triedJstlInit) {
             triedJstlInit = true;
             try {
-                loopTagSupportClass = applicationClass("javax.servlet.jsp.jstl.core.LoopTagSupport");
+                loopTagSupportClass = applicationClass("jakarta.servlet.jsp.jstl.core.LoopTagSupport");
                 loopTagSupportGetStatus = loopTagSupportClass.getDeclaredMethod("getLoopStatus", (Class<?>[]) null);
-                loopTagStatusClass = applicationClass("javax.servlet.jsp.jstl.core.LoopTagStatus");
+                loopTagStatusClass = applicationClass("jakarta.servlet.jsp.jstl.core.LoopTagStatus");
                 loopTagStatusGetIndex = loopTagStatusClass.getDeclaredMethod("getIndex", (Class<?>[]) null);
                 triedJstlSuccess = true;
             } catch (ClassNotFoundException ignored) { // means JSTL not loaded
