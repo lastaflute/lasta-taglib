@@ -17,7 +17,7 @@ package org.lastaflute.taglib.base;
 
 import java.util.function.Supplier;
 
-import javax.servlet.jsp.JspException;
+import jakarta.servlet.jsp.JspException;
 
 /**
  * @author modified by jflute (originated in Struts)

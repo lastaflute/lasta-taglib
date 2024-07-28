@@ -25,11 +25,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Supplier;
 
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.JspWriter;
-import javax.servlet.jsp.PageContext;
-import javax.servlet.jsp.tagext.BodyContent;
-
 import org.dbflute.helper.message.ExceptionMessageBuilder;
 import org.dbflute.jdbc.Classification;
 import org.dbflute.jdbc.ClassificationMeta;
@@ -59,6 +54,11 @@ import org.lastaflute.web.exception.FormPropertyNotFoundException;
 import org.lastaflute.web.ruts.VirtualForm;
 import org.lastaflute.web.ruts.message.objective.ObjectiveMessageResources;
 import org.lastaflute.web.servlet.request.RequestManager;
+
+import jakarta.servlet.jsp.JspException;
+import jakarta.servlet.jsp.JspWriter;
+import jakarta.servlet.jsp.PageContext;
+import jakarta.servlet.jsp.tagext.BodyContent;
 
 /**
  * @author modified by jflute (originated in Struts)
@@ -355,7 +355,7 @@ public class TaglibEnhanceLogic {
      * @param value The value of autocomplete attribute, 'on' or 'off'. (NullAllowed: if null, returns null)
      * @param callerInfo The supplier of caller type for exception message. (NotNull)
      * @return The resolved value of autocomplete. (NullAllowed: when the autocomplete is null)
-     * @throws BrTaglibLabelsResourceNotFoundException When the resource key is not found in the resource if the key is for label.
+     * @throws TaglibLabelsResourceNotFoundException When the resource key is not found in the resource if the key is for label.
      */
     public String resolveAutocompleteResource(PageContext pageContext, String value, Supplier<Object> callerInfo) {
         // no check because the value can be free word recently by jflute (2017/08/17)
